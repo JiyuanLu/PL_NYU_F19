@@ -1,0 +1,105 @@
+V "GNAT Lib v7"
+P SS ZX
+
+RN
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTIONS
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_TASK_HIERARCHY
+RV NO_TASKING
+RV NO_DEFAULT_INITIALIZATION
+RV NO_DYNAMIC_SIZED_OBJECTS
+RV NO_IMPLICIT_LOOPS
+RV SPARK_05
+RV MAX_TASK_ENTRIES=1
+RV MAX_TASKS=1+
+
+U matrixmult%b		matrixmult.adb		ec520ca3 NE OO PK
+W ada.real_time%s	a-reatim.adb		a-reatim.ali
+W ada.tags%s		a-tags.adb		a-tags.ali
+W system%s		system.ads		system.ali
+W system.img_int%s	s-imgint.adb		s-imgint.ali
+W system.parameters%s	s-parame.adb		s-parame.ali
+W system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+W system.soft_links%s	s-soflin.adb		s-soflin.ali
+W system.task_info%s	s-tasinf.adb		s-tasinf.ali
+W system.tasking%s	s-taskin.adb		s-taskin.ali
+W system.tasking.rendezvous%s  s-tasren.adb	s-tasren.ali
+W system.tasking.stages%s  s-tassta.adb		s-tassta.ali
+
+U matrixmult%s		matrixmult.ads		3e0406f1 EE NE OO PK
+
+D ada.ads		20170106103348 76789da1 ada%s
+D a-except.ads		20151016123252 291912d5 ada.exceptions%s
+D a-finali.ads		20151020095656 bf4f806b ada.finalization%s
+D a-reatim.ads		20160420090448 a87e2da7 ada.real_time%s
+D a-stream.ads		20141120112812 119b8fb3 ada.streams%s
+D a-tags.ads		20151016130316 01f5e3ef ada.tags%s
+D a-unccon.ads		20170106103348 31484697 ada.unchecked_conversion%s
+D interfac.ads		20160502101001 5ab55268 interfaces%s
+D i-c.ads		20110801143639 5421119b interfaces.c%s
+D i-cstrin.ads		20140611122922 341d0ddf interfaces.c.strings%s
+D matrixmult.ads	20191004183908 3e0406f1 matrixmult%s
+D matrixmult.adb	20191004183847 d2560a52 matrixmult%b
+D system.ads		20161018202953 32a08138 system%s
+D s-atacco.ads		20120515093410 4c36d12f system.address_to_access_conversions%s
+D s-exctab.ads		20140225151139 54135002 system.exception_table%s
+D s-finroo.ads		20120426095924 4ff27390 system.finalization_root%s
+D s-imgint.ads		20090409150019 02dbe0c2 system.img_int%s
+D s-multip.ads		20101011073009 38ac9f73 system.multiprocessors%s
+D s-osinte.ads		20150107102251 2e5b26a9 system.os_interface%s
+D s-parame.ads		20140801093848 7e2a0d7f system.parameters%s
+D s-secsta.ads		20170112134946 9751b57e system.secondary_stack%s
+D s-soflin.ads		20151020124036 14e1eb6c system.soft_links%s
+D s-stache.ads		20140225151139 a37c21ec system.stack_checking%s
+D s-stausa.ads		20110804134155 017a0a05 system.stack_usage%s
+D s-stalib.ads		20151112104907 09bd3940 system.standard_library%s
+D s-stoele.ads		20140225151139 2dc34a04 system.storage_elements%s
+D s-tasinf.ads		20140613095942 601f6b72 system.task_info%s
+D s-taspri.ads		20141120144719 6c1d93d4 system.task_primitives%s
+D s-taprop.ads		20140521131406 1dd2e1b6 system.task_primitives.operations%s
+D s-taskin.ads		20170112134946 05d6152c system.tasking%s
+D s-taprob.ads		20170106114239 acd6094d system.tasking.protected_objects%s
+D s-tpoben.ads		20170106115015 60ad3dae system.tasking.protected_objects.entries%s
+D s-tasren.ads		20120208100446 a67a9949 system.tasking.rendezvous%s
+D s-tassta.ads		20170112134946 5a53a7c6 system.tasking.stages%s
+D s-traent.ads		20140730135025 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20160502101423 34867c83 system.unsigned_types%s
+D s-win32.ads		20140120152906 b7f96285 system.win32%s
+X 11 matrixmult.ads
+1K9*MatrixMult 7l5 7e15 12|1b14 45l5 45t15
+2i5*SIZE{integer} 3r48
+3I13*matrix_index{integer} 4r27 4r41 12|4r18 5r22 7r26 28r22 34r34 34r48
+. 39r18 40r22
+4A10*Matrix(integer)<integer><integer> 5r37 5r52 6r32 6r47 12|2r37 2r52 14r32
+. 14r47
+5U15*NaiveMatmult 5>28 5>31 5<45 12|2b15 12t8
+5a28 A{4A10} 12|2b28 8r42
+5a31 B{4A10} 12|2b31 8r52
+5a45 C{4A10} 12|2b45 6m17 8m21 8r32
+6U15*Matmult 6>23 6>26 6<40 12|14b15 44t8
+6a23 A{4A10} 12|14b23 29r38
+6a26 B{4A10} 12|14b26 29r48
+6a40 C{4A10} 12|14b40 27m13 29m17 29r28
+X 12 matrixmult.adb
+4i13 i{11|3I13} 6r19 8r23 8r34 8r44
+5i17 j{11|3I13} 6r22 8r26 8r37 8r57
+7i21 k{11|3I13} 8r47 8r54
+16T19 Computer 18l13 18e21 20b19 31l13 31t21 34r65
+17Y19 E 17>21 17>26 23b20 26l17 26t18 41s39
+17i21 row{integer} 24r22
+17i26 column{integer} 25r22
+21i13 i{integer} 24m17 27r15 29r19 29r30 29r40
+21i16 j{integer} 25m17 27r18 29r22 29r33 29r53
+23i22 row{integer}
+23i27 column{integer}
+28i17 k{11|3I13} 29r43 29r50
+34A14 Computers(16T19)<integer><integer> 35r27
+35a9 MatmulComputers{34A14} 41r17
+39i13 i{11|3I13} 41r33 41r41
+40i17 j{11|3I13} 41r36 41r44
+X 24 s-stausa.ads
+203U14*Initialize 204i<c,__gnat_stack_usage_initialize>22
+268U14*Output_Results 272i<c,__gnat_stack_usage_output_results>22
+
