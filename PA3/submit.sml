@@ -1,7 +1,7 @@
 Control.Print.printDepth := 100;
 Control.Print.printLength := 100;
 
-"Function definition for Q1";
+(* "Function definition for Q1"; *)
 (*
     merge L1 L2 => int list
     L1, L2: sorted lists of integers in ascending order.
@@ -9,7 +9,7 @@ Control.Print.printLength := 100;
 *)
 fun merge [] L2 = L2
 |   merge L1 [] = L1
-|   merge (a::b) (c::d) = if a < c then a :: (merge b (c::d)) else c :: (merge (a::b) d);
+|   merge (a::b) (c::d) = if a < c then a :: (merge b (c::d)) else c :: (merge (a::b) d)
 
 (*
 "Test cases for Q1";
@@ -20,7 +20,7 @@ merge [1, 3, 5, 7, 9] [2, 4, 6, 8, 10];
 merge [1, 7, 10] [2, 8, 11];
 *)
 
-"Function definition for Q2";
+(* "Function definition for Q2"; *)
 (*
     split L => int list * int list
     L: a list of integers
@@ -29,7 +29,7 @@ merge [1, 7, 10] [2, 8, 11];
 *)
 fun split [] = ([], [])
 |   split (a::[]) = ([a], [])
-|   split (a::b::c) = (a :: (fn (x, y) => x) (split c), b:: (fn (x, y) => y) (split c));
+|   split (a::b::c) = (a :: (fn (x, y) => x) (split c), b:: (fn (x, y) => y) (split c))
 
 (*
 "Test cases for Q2";
@@ -39,7 +39,7 @@ split [1, 2];
 split [1, 4, 2, 6, 8, 3, 9, 5, 4];
 *)
 
-"Function definition for Q3";
+(* "Function definition for Q3"; *)
 (*
     mergeSort L => int list
     L: a list of integers
@@ -47,7 +47,7 @@ split [1, 4, 2, 6, 8, 3, 9, 5, 4];
 *)
 fun mergeSort [] = []
 |   mergeSort [a] = [a]
-|   mergeSort L = merge (mergeSort((fn (x, y) => x)(split L))) (mergeSort((fn (x, y) => y)(split L)));
+|   mergeSort L = merge (mergeSort((fn (x, y) => x)(split L))) (mergeSort((fn (x, y) => y)(split L)))
 
 (*
 "Test cases for Q3";
@@ -57,7 +57,7 @@ mergeSort [2, 1];
 mergeSort [1, 7, 2, 6, 8, 3, 9, 5, 4];
 *)
 
-"Function definition for Q4";
+(* "Function definition for Q4" *)
 (*
     sort (op <) L => 'a list
     L: a list of elements of any type
@@ -75,7 +75,7 @@ fun sort (op <) [] = []
         |       split (a::[]) = ([a], [])
         |       split (a::b::c) = (a::(fn(x, y) => x)(split c), b::(fn(x, y) => y)(split c))
         in merge (sort (op <) ((fn(x, y) => x)(split L))) (sort (op <) ((fn(x, y) => y)(split L)))
-        end;
+        end
 
 (*
 "Test cases for Q4";
@@ -86,7 +86,7 @@ sort (fn(a, b) => length a < length b) [[], []];
 sort (fn(a, b) => length a < length b) [[1, 9, 3, 6], [1], [2, 4, 6], [5, 5]];
 *)
 
-"Datatype definition for Q5";
+(* "Datatype definition for Q5"; *)
 (*
     datatype 'a tree
     An element of 'a tree can be one of the following:
@@ -95,7 +95,7 @@ sort (fn(a, b) => length a < length b) [[1, 9, 3, 6], [1], [2, 4, 6], [5, 5]];
         - An interior node tha is labeled with an 'a and has two children, each of type 'a tree.
 *)
 
-datatype 'a tree = empty | leaf of 'a | node of 'a * 'a tree * 'a tree;
+datatype 'a tree = empty | leaf of 'a | node of 'a * 'a tree * 'a tree
 
 (*
 "Test cases for Q5";
@@ -104,7 +104,7 @@ val tree1 = node (5, node (4, leaf 3, empty),
                               node (9, empty, leaf 10)));
 *)      
     
-"Function definition for Q6";
+(* "Function definition for Q6"; *)
 (*
     labels T => 'a list
     T: an 'a tree.
@@ -113,7 +113,7 @@ val tree1 = node (5, node (4, leaf 3, empty),
  *)
 fun labels empty = []
 |   labels (leaf n) = [n]   
-|   labels (node(v, l, r)) = (labels l) @ [v] @ (labels r);
+|   labels (node(v, l, r)) = (labels l) @ [v] @ (labels r)
 
 (*
 "Test cases for Q6";
@@ -123,7 +123,7 @@ val tree1 = node (5, node (4, leaf 3, empty),
 labels tree1;
 *)
 
-"Function definition for Q7";
+(* "Function definition for Q7"; *)
 (*
     replace (op ==) x y T => 'a tree
     T: an 'a tree.
@@ -131,11 +131,11 @@ labels tree1;
     Returns: a tree identical to T except anywhere a label equal to x 
              appears in T, the label y appears instead.
  *)
- infix ==;
+ infix ==
  fun replace (op ==) x y empty = empty
  |   replace (op ==) x y (leaf n) = if n == x then (leaf y) else (leaf n)
  |   replace (op ==) x y (node(v, l, r)) = if v == x then (node(y, replace (op ==) x y l, replace (op ==) x y r)) 
-                                                    else (node(v, replace (op ==) x y l, replace (op ==) x y r));
+                                                    else (node(v, replace (op ==) x y l, replace (op ==) x y r))
 (*
 "Test cases for Q7";
 val tree1 = node (5, node (4, leaf 3, empty),
@@ -149,7 +149,7 @@ val tree3 = replace (op <>) 7 0 tree1;
 labels tree3;    
 *)
 
-"Function definition for Q8";
+(* "Function definition for Q8"; *)
 (*
     replaceEmpty y T => 'a tree
     T: an 'a tree.
@@ -159,7 +159,7 @@ labels tree3;
 *)
 fun replaceEmpty y empty = y
 |   replaceEmpty y (leaf n) = (leaf n)
-|   replaceEmpty y (node(v, l, r)) = node(v, replaceEmpty y l, replaceEmpty y r);
+|   replaceEmpty y (node(v, l, r)) = node(v, replaceEmpty y l, replaceEmpty y r)
 
 (*
 "Test cases for Q8";
@@ -171,20 +171,21 @@ val tree4 = replaceEmpty (node (12, leaf 11, leaf 13)) tree1;
 labels tree4;
 *)
 
-"Function definition for Q9";
+(* "Function definition for Q9"; *)
 (*
     mapTree f T => 'a tree
     T: an 'a tree.
     f: a function.
     Returns: a tree resulting from applying f to every node, leaf, and empty in T.
 *)
+(*
 fun increment empty = leaf 0
 |   increment (leaf a) = leaf (a+1)
-|   increment (node (a, L, R)) = node (a+1, L, R);
-
+|   increment (node (a, L, R)) = node (a+1, L, R)
+*)
 fun mapTree f empty = f empty
 |   mapTree f (leaf a) = f (leaf a)
-|   mapTree f (node (a, L, R)) = f (node (a, mapTree f L, mapTree f R));
+|   mapTree f (node (a, L, R)) = f (node (a, mapTree f L, mapTree f R))
         
 (*
 "Test cases for Q9";
@@ -196,7 +197,7 @@ val tree5 = mapTree increment tree1;
 labels tree5;
 *)
 
-"Function definition for Q10";
+(* "Function definition for Q10"; *)
 (*
     sortTree (op <) T => 'a list tree
     T: an 'a list tree.
@@ -215,7 +216,7 @@ fun sortTree (op <) empty = empty
 fun sortTree (op <) T = 
     mapTree (fn empty => empty 
              |  (leaf n) => leaf (sort (op <) n)
-             |  (node (a, L, R)) => node (sort (op <) a, L, R)) T;
+             |  (node (a, L, R)) => node (sort (op <) a, L, R)) T
 
 (*
 "Test cases for Q10";
