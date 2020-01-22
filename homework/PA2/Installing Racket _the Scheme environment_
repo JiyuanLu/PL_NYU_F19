@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Style-Type" content="text/css" /> 
+    <meta name="viewport" content="width=device-width">
+    <title>Installing Racket (the Scheme environment)</title>
+    <link href="/library/skin/tool_base.css" type="text/css" rel="stylesheet" media="all" />
+    <link href="/library/skin/morpheus-nyu/tool.css" type="text/css" rel="stylesheet" media="all" />
+    <script type="text/javascript" src="/library/js/headscripts.js"></script>
+<script type="text/javascript" src="/media-gallery-tool/js/kaltura-upgrade.js"></script>    <style>body { padding: 5px !important; }</style>
+  </head>
+  <body>
+<p>You will be using the Racket programming environment for your Scheme programming. Although the Racket environment supports richer languages than the standard (R5RS) Scheme language, you will need to use the R5RS version of Scheme. To install Racket:</p>
+
+<ol>
+	<li>Go to <a href="http://racket-lang.org/">http://racket-lang.org</a> and click &quot;Download&quot; to download and install the Racket environment for your computer.</li>
+	<br />
+	<li>The IDE application is called &quot;Dr. Racket&quot;.&nbsp; The first time you run it, you must choose the right language, i.e. R5RS Scheme, for it to support.&nbsp; To do so, click on the drop-down menu at the very bottom left of the Dr. Racket window. Click &quot;Choose Language &gt; Other Languages &gt; R5RS&quot;, and then &quot;OK&quot;.&nbsp; At the bottom left of the Dr. Racket window, you should now see &quot;R5RS&quot;.&nbsp; <u>If you don't see &quot;R5RS&quot; at the bottom of the Dr. Racket window, you will not be able to do your Scheme assignment (since we will only grade programs written in R5RS Scheme).</u></li>
+</ol>
+
+<p>&nbsp;</p>
+
+  </body>
+</html>

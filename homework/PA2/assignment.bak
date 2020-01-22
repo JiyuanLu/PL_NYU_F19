@@ -1,0 +1,56 @@
+;;; Problem 1: (count-numbers L)
+;;; L: a list
+;;; Base Case: L is empty, return 0
+;;; Assumption: (count-numbers M) returns a count of the numbers in M, for
+;;;             any list M smaller than L (including (car L) and (cdr L)).
+;;; Step: If (car L) is a list, then return the sum of the count of the
+;;;       numbers in (car L) and the count of the numbers in (cdr L).
+;;;       if (car L) is a number, return 1 plus the count ofthe numbers in
+;;;       (cdr L). Otherwise, return the count of the numbers in (cdr L).
+(define (count-numbers L)
+  (cond ((null? L) 0)
+        ((list? (car L)) (+ (count-numbers (car L)) (count-numbers (cdr L))))
+        ((number? (car L)) (+ 1 (count-numbers (cdr L))))
+        (else (count-numbers (cdr L)))))
+;;; Test Case:
+;;; (count-numbers '(11 (22 (a 33 44) 55) (6 (b 7 8 (9 c) 100 d))))
+;;; (count-numbers '())
+
+
+;;; Problem 2: (insert x L)
+;;; x: a number
+;;; L: a sorted list of numbers in increasing order
+;;; Base Case: L is empty, return a list containing only one element x, or
+;;;            x < (car L), prepend x to L
+;;; Assumption: (insert x M) returns a new sorted list containing x and all the
+;;;             elements in M, for any list M smaller than L, (including (cdr L)).
+;;; Step: If x < (car L), prepend x to L.
+;;;       Otherwise, prepend (car L) to the result of the recursive call
+;;;       (insert x (cdr L)).
+(define (insert x L)
+  (cond ((null? L) (cons x '()))
+        ((< x (car L)) (cons x L))
+        (else (cons (car L) (insert x (cdr L))))))
+;;; Test Case:
+;;; (insert 5 '(1 2 3 4 6 7 8))
+;;; (insert 5 '())
+;;; (insert 5 '(3 4 4 5 5 5 5 6 8))
+
+;;; Problem 3: (insert-all L M)
+;;; L: a list of numbers
+;;; M: a sorted list of numbers
+;;; Base Case: L is empty, return M
+;;; Assumption: (insert-all A M) returns a sorted list containing all the elements
+;;;              of A and all the elements of M, for any list A smaller than L,
+;;;             (including (cdr L)).
+;;; Step: Insert (car L) into M and get a new sorted list N. Then recursively call
+;;;       (insert-all (cdr L) N).
+(define (insert-all L M)
+  (cond ((null? L) M)
+  (else (insert-all (cdr L) (insert (car L) M)))))
+;;; Test Case:
+;;; (insert-all '(2 4) '(1 3 5))
+;;; (insert-all '(3 6 1 5 2 7 4) '())
+
+;;; Problem 4: (sort L)
+;;; L: an unsorted list of numbers

@@ -1,0 +1,91 @@
+% scalac first.scala
+% scala Another
+Yes
+% scala Bar
+42
+Counter is now 2
+Got the value 2
+2000
+% scala
+Welcome to Scala 2.13.1 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_101).
+Type in expressions for evaluation. Or try :help.
+
+scala> 0
+res0: Int = 0
+
+scala> class A
+defined class A
+
+scala> class B extends A       // B is a subtype of A
+defined class B
+
+scala> val x:A = new B       // The usual subtyping
+x: A = B@2740e316
+
+scala> val y:B = new A      // Obviously, an A is not a B
+                 ^
+       error: type mismatch;
+        found   : A
+        required: B
+
+
+// FUNCTION SUBTYPING:  Contravariant in the input type, covariant in the output type.
+
+scala> def H(f:B=>Int) = f(new B)    // H expects a B=>Int
+H: (f: B => Int)Int
+
+scala> def g(x:A) = 3      // g is an A=>Int
+g: (x: A)Int
+
+scala> H(g)            // It's fine to use an A=>Int where a B=>Int is expected (contravariance)
+res1: Int = 3
+
+scala> def H2(f:A=>Int) = f(new A)   // H2 expects an A=>Int
+H2: (f: A => Int)Int
+
+scala> def g2(x:B) = 3    //  g2 is a B=>Int
+g2: (x: B)Int
+
+scala> H2(g2)          // You can't use a B=>Int where an A=>Int is expected.
+          ^
+       error: type mismatch;
+        found   : B => Int
+        required: A => Int
+
+scala> def J(f:Int=>A) = f(3)   // J expects an Int=>A
+J: (f: Int => A)A
+
+scala> def i(y:Int) = new B         // i is an Int=>B
+i: (y: Int)B
+
+scala> J(i)            // It's fine to use an Int=>B where an Int=>A is expected (covariance)
+res3: A = B@b5390
+
+
+// Generic classes in Scala
+
+scala> class C[T]     // T is the type parameter to the generic class C.
+defined class C
+
+scala> val x:C[A] = new C[B]   // By default, no subtyping on generic class ("invariant")
+                    ^
+       error: type mismatch;
+        found   : C[B]
+        required: C[A]
+       Note: B <: A, but class C is invariant in type T.
+       You may wish to define T as +T instead. (SLS 4.5)
+
+scala> class D[+T]   // Covariantly subtyped generic class (need the "+")
+defined class D
+
+scala> val x:D[A] = new D[B]
+x: D[A] = D@9ba167e
+
+scala> class E[-T]   // contravariantly subtyped generic class (need to "-")
+defined class E
+
+scala> val y:E[B] = new E[A] 
+y: E[B] = E@65528bcf
+
+scala> :quit
+

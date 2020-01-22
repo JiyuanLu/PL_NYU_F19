@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Style-Type" content="text/css" /> 
+    <meta name="viewport" content="width=device-width">
+    <title>Installing Ada for Windows</title>
+    <link href="/library/skin/tool_base.css" type="text/css" rel="stylesheet" media="all" />
+    <link href="/library/skin/morpheus-nyu/tool.css" type="text/css" rel="stylesheet" media="all" />
+    <script type="text/javascript" src="/library/js/headscripts.js"></script>
+<script type="text/javascript" src="/media-gallery-tool/js/kaltura-upgrade.js"></script>    <style>body { padding: 5px !important; }</style>
+  </head>
+  <body>
+<p><strong>Installing GNU Ada (GNAT) for Windows</strong></p>
+
+<p>The cygwin environment will be used for programming in several languages, including Ada, this semester.&nbsp; It provides a linux-like environment for Windows users.&nbsp; The GNAT compiler, based on GCC, will be used to compile Ada programs and is easily installed on a Windows machine.</p>
+
+<p>To install cygwin on your machine, go to&nbsp; <a href="http://www.cygwin.org" target="_blank">http://www.cygwin.org</a>&nbsp; and click on &quot;Install cygwin&quot; on the top left hand side of the page.&nbsp; Then click on&nbsp; &quot;setup-x86_64.exe&quot; to download the setup program.&nbsp; Once that setup program has been downloaded, run it.</p>
+
+<p>Follow the instructions for installing cygwin, accepting the default settings until you get to the &quot;Select Packages&quot; window.&nbsp; At that point, you will need to make sure that GCC gets installed. To do this:</p>
+
+<ol>
+	<li>At the top of the window, in the drop-down menu labeled &quot;View&quot;, choose &quot;Category&quot;.</li>
+	<li>Click on the &quot;+&quot; next to the &quot;All&quot; entry to make the list of available packages appear.</li>
+	<li>Click on the &quot;+&quot; next to &quot;Devel&quot; to expand the list of available development tools.</li>
+	<li>Scroll down to &quot;gcc-ada&quot; and, where you see the drop-down menu that says &quot;skip&quot;, select &quot;7.4.0-1&quot; instead.</li>
+	<li>Not far below, where it says &quot;gcc-core&quot;,&nbsp; select &quot;7.4.0-1&quot; from the drop-down menu (instead of &quot;skip&quot;).</li>
+</ol>
+
+<p>Then, click &quot;next&quot; at the bottom of the window and continue to click &quot;next&quot; when prompted until the installation finishes (at which point you'll click &quot;Finish&quot;).&nbsp; At the end of the installation process, it will offer to &quot;Create icon on Desktop&quot;, which I recommend doing.</p>
+
+<p>Once the installation process is finished, double-click on the cygwin icon.&nbsp; A shell should open.&nbsp; Type the command &quot;which gnatmake&quot; and make sure that it displays a path for the gnatmake utility.</p>
+
+<p><strong>Testing the compiler</strong></p>
+
+<p>In the Ada resources folder, click on &quot;Simple Ada program to test compiler&quot;.&nbsp; A zip file will be downloaded.&nbsp; When you unzip it, you will see several files with .ads and .adb extensions.&nbsp; In a cygwin shell, go to the directory containing the files. Then type,</p>
+
+<p>gnatmake objmain.adb</p>
+
+<p>You will see that gcc is invoked several times, along with gnatbind and gnatlink.</p>
+
+<p>To run the program, type</p>
+
+<p>./objmain</p>
+
+<p>(you won't need the &quot;./&quot; if your PATH environment variable contains &quot;.&quot;)</p>
+
+<p>Note: In the cygwin shell, your home directory corresponds to the windows directory c:\cygwin64\home\<em>username</em>\, where <em>username</em> is whatever your username on the computer is.&nbsp; You may want to copy the downloaded sample Ada files (with the .ads and .adb extensions) into that home directory before trying to compile them.</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+  </body>
+</html>

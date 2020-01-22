@@ -1,0 +1,253 @@
+~/Desktop (501\)% scheme
+Welcome to Racket v6.6.
+R5RS legacy support loaded
+> (car '(1 2 3 4))
+1
+> (cdr '(1 2 3 4))
+(2 3 4)
+> ;; second element of a list
+(car (cdr '(1 2 3 4)))
+2
+> ;;; third element 
+(car (cdr (cdr '(1 2 3 4))))
+3
+>
+;;; second element of a list can also be found by (cadr L)
+
+(cadr '(1 2 3 4))
+2
+> ;;;; third element
+
+(caddr '(1 2 3 4 5))
+3
+> ;;; how about this?
+
+(cadar '((1 2 3) (4 5 6) (7 8 9)))
+2
+> ;;; Functions are "first class values", they can be passed
+  ;;; as parameters, returned as results, put into lists, etc.
+
+(define (mul2 x) (* 2 x))
+> (mul 3)
+
+> (mul2 3)
+6
+> (define (f g) (g (g 4)))
+> (f mul2)
+16
+> ;;; functions can also be returned as results
+
+(define (mul5 x) (* x 5))
+> 
+(define (foo x)
+  (if (> x 3)
+      mul2
+      mul5))
+> (foo 1)
+#<procedure:mul5>
+> (define h (foo 4))
+> (h 5)
+10
+> ;;; here's a silly example
+
+(define (bar x)
+  (if (> x 3)
+     mul2
+     17))
+> (define j (bar 2))
+> j
+17
+> (define k (bar 7))
+> k
+#<procedure:mul2>
+>
+
+;;; the result of calling foo can then itself be called.
+
+((foo 4) 5)
+10
+> 
+
+;;; (map f L) applies f to every element of L, returning 
+;;; a list of the results
+
+(map mul5 '(1 2 3 4 5))
+(5 10 15 20 25)
+>
+
+;;;map is not "primitive", you can easily write it in Scheme.
+
+(define (mymap f L)
+  (cond ((null? L) '())
+        (else (cons (f (car L)) (mymap f (cdr L))))))
+> 
+(mymap mul5 '(1 2 3 4 5))
+(5 10 15 20 25)
+>
+
+  ;;; You can write an expression whose value is a function,
+  ;;; without having to give the function a name (an
+  ;;; "anonymous" function.
+
+  ;;; (lambda (params) body)
+
+(lambda (x y) (+ x y))
+#<procedure>
+> 
+
+(map (lambda (x) (* x 7)) '(1 2 3 4 5))
+(7 14 21 28 35)
+>
+
+;;; lambda expressions can be nested inside a
+;;; a function
+
+(define (baz x)
+  (cond ((> x 3) (lambda (x) (* x 3)))
+        (else (lambda (y) (* y 20)))))
+> ((baz 5) 5)
+15
+> ;;; You can put functions into lists
+
+(define myFnList (list mul2 mul5 (lambda (y) (- y 12))))
+> myFnList
+(#<procedure:mul2> #<procedure:mul5> #<procedure>)
+>
+
+((caddr myFnList) 20)
+8
+>
+
+;;; Scheme is statically scoped
+
+(define (myFun x)
+  (lambda (y) (+ x y)))
+>
+
+(define moreFun (myFun 100))
+>
+
+(moreFun 50)
+150
+>
+
+;;; Notice that there is no x in the outermost scope
+
+x
+x: undefined;
+ cannot reference undefined identifier
+  context...:
+   /Applications/Racket v6.6/collects/racket/private/misc.rkt:88:7
+   /Applications/Racket v6.6/share/pkgs/r5rs-lib/r5rs/run.rkt: [running body]
+> 
+
+;;; Suppose I have a list of the form ((a b c) (d e f) (g h i)),
+;;; and I want to insert a new value at the front of every nested
+;;; list:
+
+;;;   (insert-elt 3 '((4 5 6) (7 8 9) (10 11))) =>
+;;;   ((3 4 5 6) (3 7 8 9) (3 10 11))
+
+(define (insert-elt x L)
+   (map (lambda (elt) (cons x elt))  L))
+>
+
+(insert-elt 3 '((4 5 6) (7 8 9) (10 11)))
+((3 4 5 6) (3 7 8 9) (3 10 11))
+> 
+
+;;; defining a new scope (and new variables) using LET
+
+;;; (let ((var1 exp1) (var2 exp2) ... (varN expN)) body)
+
+(let ((x 10)
+      (y (mul5 6)))
+  (+ x y))
+40
+>
+
+;;; The scope of x, above, is only within the body of the let. Of
+;;; course, it is not visible in the outermost scope:
+
+x
+x: undefined;
+ cannot reference undefined identifier
+  context...:
+   /Applications/Racket v6.6/collects/racket/private/misc.rkt:88:7
+   /Applications/Racket v6.6/share/pkgs/r5rs-lib/r5rs/run.rkt: [running body]
+>
+
+  ;;; IMPORTANT:  The new x and y are only visible with the body.
+  ;;;  They're not visible in the expressions defining their values.
+
+(let ((x 10)
+      (y (+ x 3)))  ;;; can't refer to the new x here.
+  (+ x y))
+x: undefined;
+ cannot reference undefined identifier
+  context...:
+   /Applications/Racket v6.6/collects/racket/private/misc.rkt:88:7
+   /Applications/Racket v6.6/share/pkgs/r5rs-lib/r5rs/run.rkt: [running body]
+> 
+(define z 26)   ;; defining a global z (i.e. in outermost scope)
+
+> (let ((z 10)
+        (w (+ z 100)))   ;; this z is the global z, which is 26.
+    w)
+126
+> (let ((z 10)
+        (w (+ z 100)))    ;; this z is the global z, which is 26.
+    (+ w z))   ;;; this z is the local z, which is 10.
+136
+> 
+
+;;; suppose I want to introduce new variables, such that the
+;;; value of each variable depends on the value of the previous
+;;; new variables
+
+;;; Solution 1: Use nested lets
+
+
+(let ((x 10))
+  (let ((y (* x 2)))
+    (+ x y)))
+30
+> ;;; Solution 2: Use let*
+  ;;;    -- semantics are the same as the nested lets
+
+(let* ((x 10) (y (* x 2))) 
+  (+ x y))
+30
+> ;;; can't use let or let* to introduce a new variable whose
+  ;;; value is a recursive function.
+
+(let ((f (lambda (x) (* x 3))))
+  (f 10))
+30
+> f
+#<procedure:f>
+> 
+
+(let ((fac (lambda (x) (if (= x 0) 1 (* x (fac (- x 1)))))))
+  (fac 5))
+fac: undefined;
+ cannot reference undefined identifier
+  context...:
+   /Applications/Racket v6.6/collects/racket/private/misc.rkt:88:7
+   /Applications/Racket v6.6/share/pkgs/r5rs-lib/r5rs/run.rkt: [running body]
+> 
+
+;;; for introducing recursive functions in a new scope, use
+;;; LETREC
+
+(letrec ((fac (lambda (x) (if (= x 0) 1 (* x (fac (- x 1)))))))
+  (fac 5))
+120
+> 
+
+;;; You can introduce mutally recursive functions using LETREC
+
+(letrec ((fac1 (lambda (x) (if (= x 0) 1 (* x (fac2 (- x 1))))))
+         (fac2 (lambda (x) (if (= x 0) 1 (* x (fac1 (- x 1)))))))
+  (fac1 5))
+120

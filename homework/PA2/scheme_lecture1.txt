@@ -1,0 +1,177 @@
+% scheme
+Welcome to Racket v6.6.
+R5RS legacy support loaded
+> ;;; This is a comment (anything following a semi-colon)
+
+;; The basic types: numbers (integer or floating point),
+;;   strings, #t (true), #f (false), and symbols.
+
+67
+67
+> 56.6
+56.6
+> "this is a string"
+"this is a string"
+> ;;; a symbol, such as 'x, is a basic data type whose 
+  ;;; only property is its name.
+
+'x
+x
+;; The primary aggregate type is a list
+
+'(1 2 3 4)
+(1 2 3 4)
+> ;; Lists can contain any mix of values, including nested lists.
+
+'(1 2 a b 3.4 (5 6 "hello") 7)
+(1 2 a b 3.4 (5 6 "hello") 7)
+> 
+
+;;; an expression, other than a literal (above), always start with "(" and ends with ")".
+;;; Lisp always uses prefix notation.
+
+(+ 4 5)
+9
+> (* (+ 4 5) 12)
+108
+> ;; Simple conditional:  (if <cond> <then-part> <else-part>)
+
+(if (= 3 4) (- (* 4 5) 6) (+ (- 10 4) 11))
+17
+> ;; More complex conditional: 
+  ;;   (cond (<cond1> <result1>) (<cond2> <result2) ... (else <resultn>)
+
+(cond ((= 3 4) 21)
+      ((> 3 4) "hello")
+      (else 52.9))
+52.9
+> 
+
+;; Defining variables:  (define <name> <value>)
+
+(define x (+ 4 6))
+> x
+10
+> ;;; with a quote, 'x denotes the symbol x. 
+  ;;; without a quote, x is the variable x, which has a value.
+  ;;; the quote says "do not evaluate this thing".
+
+(define myverbs '(run jump throw kick))
+> myverbs
+(run jump throw kick)
+> ;;; a function call is of the form: (<fn> <arg1> ... <argn>)
+
+(+ (+ 2 3) (* 4 5))
+25
+> ;;; Defining a function:  (define (<name> <param1> ... <paramN>) body)
+
+(define (foo x y) (+ x (* y 2)))
+> (foo 10 20)
+50
+> '(foo 10 20)   ;; this is just a list (due to the quote)
+(foo 10 20)
+> (define (fac n) (cond ((= n 0) 1) (else (* n (fac (- n 1))))))
+> (fac 5)
+120
+> (define (fac2 n) (if (= n 0) 1 (* n (fac2 (- n 1)))))
+> 
+;;; Constructing lists:
+;;;   - option 1:  use ' (quote) , see above
+;;;   - option 2:  use the LIST function
+
+(list 2 3 (* 6 2) (if (= 3 4) 7 "wrong"))
+(2 3 12 "wrong")
+> ;; - option 3: use the CONS function.
+;;             where (cons x L) returns a list whose first element
+;;             is x and the rest of the elements are the elements
+;;             of the list L.
+
+(cons 3 '(4 5 6))
+(3 4 5 6)
+> ;;; cons does not modify its arguments (functional language!)
+
+(define L '(6 8 10))
+> (cons 4 L)
+(4 6 8 10)
+> L
+(6 8 10)
+> 
+
+;;; constructing a list of the numbers from N to M, inclusive
+
+(define (listfromto N M)
+  (cond ((> N M) '())
+        (else (cons N (listfromto (+ N 1) M)))))
+> 
+(listfromto 4 23)
+(4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23)
+> 
+
+;;; selecting elements from a list
+;;; (car L) returns the first element of L  (the head)
+;;; (cdr L) returns a list containing the rest L (the tail)
+;;;         i.e. all the elements of L except the first element
+
+(car '(2 3 4 5))
+2
+> (cdr '(2 3 4 5))
+(3 4 5)
+> 
+
+;;; selecting the Nth element of a list
+> 
+(define (nth n L)
+  (cond ((= n 1) (car L))
+        (else (nth (- n 1) (cdr L)))))
+> 
+(nth 5 '(2 4 6 8 10 12 14))
+10
+> ;;; counting the elements in a list
+
+(define (count L)
+  (cond ((null? L) 0)
+        (else (+ 1 (count (cdr L))))))
+> (count '(1 2 (3 4) 5 6))
+5
+> L
+(6 8 10)
+> (define L2 (cons '4 L))
+> L2
+(4 6 8 10)
+> (eq? L '())
+#f
+> (append '(1 2 3 4) '(5 6 7 8))
+(1 2 3 4 5 6 7 8)
+> ;;; writing our own version of append
+
+(define (myappend L1 L2)
+  (cond ((null? L1) L2)
+        (else (cons (car L1) (myappend (cdr L1) L2)))))
+> (myappend '(3 4 5 6 7) '(10 11 12))
+(3 4 5 6 7 10 11 12)
+> ;;; Note to self: append is linear in the size of L1
+
+;;; Reversing a list
+
+(reverse '(1 2 3 4 5))
+(5 4 3 2 1)
+> (reverse '(1 2 (3 4) 5 6))
+(6 5 (3 4) 2 1)
+> ;;; define our own reverse
+(define (myreverse L)
+  (cond ((null? L) '())
+        (else (append (myreverse (cdr L)) (list (car L))))))
+> (myreverse '(1 2 3 4))
+(4 3 2 1)
+> ;;; a linear time reverse
+
+(define (rev Lfrom Lto)
+  (cond ((null? Lfrom) Lto)
+        (else (rev (cdr Lfrom) (cons (car Lfrom) Lto)))))
+> (rev '(1 2 3 4 5 6) '())
+(6 5 4 3 2 1)
+>  
+(define (myrev L) (rev L '()))
+> (myrev '(1 2 3 4 5))
+(5 4 3 2 1)
+
